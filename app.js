@@ -1,3 +1,4 @@
+const validateFilename = require("./utils/validateFilename");
 const fs = require("fs");
 const express = require("express");
 const app = express();
@@ -17,11 +18,14 @@ app.post("/save", function(req, res) {
   try {
     if (fs.existsSync(path)) {
       var ext = path.substr(path.lastIndexOf(".")).toLowerCase();
-      if (!name.trim()) {
-        console.log("Please provide a valid name");
-        res.send("Please provide a valid name");
+
+      const [valid, info] = validateFilename(name);
+      if (!valid) {
+        console.log(info);
+        res.send(info);
         return;
       }
+
       if (ext !== ".jpg" && ext !== ".jpeg") {
         console.log("Sorry we are only supporting jpeg and jpg for now");
         res.send("Sorry we are only supporting jpeg and jpg for now");
@@ -61,15 +65,10 @@ app.post("/rename", function(req, res) {
   const { newName, oldName } = req.body;
 
   try {
-    if (!newName.trim()) {
-      console.log("Please provide a valid name");
-      res.send("Please provide a valid name");
-      return;
-    }
-
-    if (!/^[0-9a-zA-Z]+$/.test(newName.trim())) {
-      console.log(`Provided name ${newName} is not alphanumeric`);
-      res.send(`Provided name ${newName} is not alphanumeric`);
+    const [valid, info] = validateFilename(newName);
+    if (!valid) {
+      console.log(info);
+      res.send(info);
       return;
     }
 

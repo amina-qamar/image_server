@@ -1,0 +1,52 @@
+{
+  "name": "image_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "transpile": "babel ./src --out-dir dist-server --copy-files --no-copy-ignored",
+    "clean": "rimraf dist-server",
+    "build": "npm-run-all transpile",
+    "server": "node ./dist-server/app.js",
+    "dev": "NODE_ENV=development npm-run-all build server",
+    "watch:dev": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amina-qamar/image_server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amina-qamar/image_server/issues"
+  },
+  "homepage": "https://github.com/amina-qamar/image_server#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "brfs": "^2.0.2",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "browserify": "^17.0.0",
+    "nodemon": "^2.0.7",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^3.0.2"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "nodemonConfig": {
+    "exec": "npm run dev",
+    "watch": [
+      "src/*"
+    ],
+    "ignore": [
+      "*.test.js"
+    ]
+  }
+}

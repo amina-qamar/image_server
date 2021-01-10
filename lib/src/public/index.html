@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gallery</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      .carousel-inner > .item > img,
+      .carousel-inner > .item > a > img {
+        width: 70%;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Your Photos</h2>
+      <div id="myCarousel" class="carousel slide">
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+          <!-- DONT TOUCH ANYTHING ABOVE HERE -->
+          <!-- <script src="index.js"></script> -->
+          <script>
+            fetch("db.json")
+              .then(function(response) {
+                return response.json();
+              })
+              .then(function(data) {
+                appendData(data.images);
+              })
+              .catch(function(err) {
+                console.error(err);
+              });
+            function appendData(data) {
+              console.log("data: ", data);
+              var mainContainer = document.querySelector(".carousel-inner");
+              for (var i = 0; i < data.length; i++) {
+                var div = document.createElement("div");
+                var innerDiv = document.createElement("div");
+                var h3 = document.createElement("h3");
+                var img = document.createElement("img");
+                mainContainer.appendChild(div);
+                div.append(img);
+                innerDiv.append(h3);
+                div.append(innerDiv);
+                div.setAttribute("class", i === 0 ? "item active" : "item");
+                img.setAttribute("src", "images/".concat(data[i]));
+                img.setAttribute("width", "460");
+                img.setAttribute("height", "345");
+                innerDiv.setAttribute("class", "carousel-caption");
+                h3.textContent = data[i].split(".")[0];
+              }
+            }
+          </script>
+          <!-- DONT TOUCH ANYTHING BELOW HERE -->
+        </div>
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#myCarousel" role="button">
+          <span
+            class="glyphicon glyphicon-chevron-left"
+            aria-hidden="true"
+          ></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#myCarousel" role="button">
+          <span
+            class="glyphicon glyphicon-chevron-right"
+            aria-hidden="true"
+          ></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+    </div>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      var previous = null;
+      var current = null;
+      setInterval(function() {
+        $.getJSON("db.json", function(json) {
+          current = JSON.stringify(json);
+          // console.log("current: ", current);
+          // console.log("previous: ", previous);
+          if (previous && current && previous !== current) {
+            console.log(previous);
+            console.log(current);
+            console.log(json.images);
+            console.log("JSON changed");
+            return json.images.forEach((image, index) => {
+              var div = document.createElement("div");
+              var innerDiv = document.createElement("div");
+              var h3 = document.createElement("h3");
+              var img = document.createElement("img");
+
+              var carousel = document.querySelector(".carousel-inner");
+              if (carousel.firstChild) {
+                carousel.removeChild(carousel.firstChild);
+              }
+
+              carousel.append(div);
+              div.append(img);
+              innerDiv.append(h3);
+              div.append(innerDiv);
+
+              div.setAttribute("class", index === 0 ? "item active" : "item");
+              img.setAttribute("src", "images/".concat(image));
+              img.setAttribute("width", "460");
+              img.setAttribute("height", "345");
+              innerDiv.setAttribute("class", "carousel-caption");
+              h3.textContent = image.split(".")[0];
+            });
+          }
+          previous = current;
+        });
+      }, 2000);
+    </script> -->
+    <!-- <script src="index.js"></script> -->
+    <script>
+      $(document).ready(function() {
+        // Activate Carousel
+        $("#myCarousel").carousel();
+
+        // Enable Carousel Indicators
+        $(".item1").click(function() {
+          $("#myCarousel").carousel(0);
+        });
+        $(".item2").click(function() {
+          $("#myCarousel").carousel(1);
+        });
+        $(".item3").click(function() {
+          $("#myCarousel").carousel(2);
+        });
+        $(".item4").click(function() {
+          $("#myCarousel").carousel(3);
+        });
+
+        // Enable Carousel Controls
+        $(".left").click(function() {
+          $("#myCarousel").carousel("prev");
+        });
+        $(".right").click(function() {
+          $("#myCarousel").carousel("next");
+        });
+      });
+    </script>
+  </body>
+</html>
